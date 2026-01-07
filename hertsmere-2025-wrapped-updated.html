@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hertsmere 2025 Wrapped</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        @font-face {
+            font-family: 'Recoleta';
+            font-weight: 900;
+            font-style: normal;
+            src: local('Recoleta Black');
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --albatross-green: #368E6F;
+            --albatross-green-rgb: 52, 142, 111;
+            --albatross-pink: #F0AEBE;
+            --albatross-yellow: #FFE6A1;
+            --bg-dark-1: #0d1f19;
+            --bg-dark-2: #1e3a2f;
+            --text-white: #FFFFFF;
+            --accent-red: #ef4444;
+            
+            /* Distinct colours for pie chart */
+            --green-fees: #2d6a4f;
+            --membership: #f72585;
+            --fb: #ffd60a;
+            --societies: #4361ee;
+            --events-traffic: #ff9e00;
+            --events-leads: #ff006e;
+            --other: #8338ec;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, var(--bg-dark-1) 0%, var(--bg-dark-2) 100%);
+            color: var(--text-white);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--albatross-green) 0%, var(--albatross-pink) 100%);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .slide-container {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+        
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 80px 40px;
+            opacity: 0;
+            transform: translateX(100px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+            pointer-events: none;
+        }
+        
+        .slide.active {
+            opacity: 1;
+            transform: translateX(0);
+            pointer-events: auto;
+            position: relative;
+        }
+        
+        .slide.exiting {
+            transform: translateX(-100px);
+        }
+        
+        .logo {
+            position: absolute;
+            top: 40px;
+            right: 40px;
+            font-family: 'Recoleta', 'Georgia', serif;
+            font-weight: 900;
+            font-size: 24px;
+            color: var(--text-white);
+            letter-spacing: -0.5px;
+        }
+        
+        .slide-number {
+            position: absolute;
+            bottom: 40px;
+            right: 40px;
+            font-size: 14px;
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .nav-buttons {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            z-index: 100;
+        }
+        
+        .nav-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--albatross-green);
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .nav-btn:hover {
+            background: var(--albatross-pink);
+            transform: scale(1.1);
+        }
+        
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        
+        .nav-btn:disabled:hover {
+            transform: scale(1);
+            background: var(--albatross-green);
+        }
+        
+        h1 {
+            font-family: 'Recoleta', 'Georgia', serif;
+            font-weight: 900;
+            font-size: clamp(48px, 8vw, 120px);
+            line-height: 0.9;
+            margin-bottom: 30px;
+            text-align: center;
+            letter-spacing: -2px;
+        }
+        
+        h2 {
+            font-weight: 700;
+            font-size: clamp(25px, 4vw, 35px);
+            margin-bottom: 20px;
+            text-align: center;
+            background: var(--albatross-yellow);
+            color: var(--bg-dark-1);
+            padding: 10px 30px;
+            display: inline-block;
+            border-radius: 4px;
+        }
+        
+        h3 {
+            font-weight: 700;
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: var(--albatross-pink);
+        }
+        
+        .big-number {
+            font-family: 'Recoleta', 'Georgia', serif;
+            font-weight: 900;
+            font-size: clamp(60px, 12vw, 180px);
+            line-height: 1;
+            color: var(--albatross-green);
+            margin: 20px 0;
+            text-align: center;
+            letter-spacing: -3px;
+        }
+        
+        .medium-number {
+            font-family: 'Recoleta', 'Georgia', serif;
+            font-weight: 900;
+            font-size: clamp(40px, 8vw, 100px);
+            line-height: 1;
+            color: var(--albatross-green);
+            margin: 15px 0;
+        }
+        
+        .subtitle {
+            font-size: clamp(16px, 2.5vw, 24px);
+            font-weight: 400;
+            text-align: center;
+            max-width: 800px;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+        
+        .stat-box {
+            background: rgba(var(--albatross-green-rgb), 0.1);
+            border: 2px solid var(--albatross-green);
+            border-radius: 12px;
+            padding: 30px 40px;
+            margin: 20px 0;
+            text-align: center;
+            min-width: 280px;
+        }
+        
+        .stat-box-label {
+            font-size: 14px;
+            font-weight: 300;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            opacity: 0.8;
+        }
+        
+        .stat-box-value {
+            font-family: 'Recoleta', 'Georgia', serif;
+            font-weight: 900;
+            font-size: 48px;
+            color: var(--albatross-green);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            width: 100%;
+            max-width: 1000px;
+            margin: 40px 0;
+        }
+        
+        .campaign-card {
+            background: rgba(var(--albatross-green-rgb), 0.05);
+            border-left: 4px solid var(--albatross-green);
+            padding: 25px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+        
+        .campaign-card.poor {
+            border-left-color: var(--accent-red);
+            background: rgba(239, 68, 68, 0.05);
+        }
+        
+        .campaign-name {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        
+        .campaign-stats {
+            font-size: 14px;
+            font-weight: 400;
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+        
+        .highlight {
+            color: var(--albatross-pink);
+            font-weight: 700;
+        }
+        
+        .pie-chart-container {
+            width: 100%;
+            max-width: 500px;
+            margin: 40px auto;
+        }
+        
+        canvas {
+            max-width: 100%;
+        }
+        
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            width: 100%;
+            max-width: 1200px;
+            margin: 30px 0;
+        }
+        
+        .insight-box {
+            background: rgba(var(--albatross-green-rgb), 0.08);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid rgba(var(--albatross-green-rgb), 0.3);
+        }
+        
+        .insight-box h3 {
+            margin-bottom: 20px;
+        }
+        
+        .insight-box p {
+            line-height: 1.7;
+            font-size: 15px;
+        }
+        
+        .warning-box {
+            background: rgba(255, 158, 0, 0.1);
+            border: 2px solid #ff9e00;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 30px auto;
+            max-width: 900px;
+        }
+        
+        .warning-box h3 {
+            color: #ff9e00;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .warning-box p {
+            line-height: 1.8;
+            font-size: 16px;
+            text-align: center;
+        }
+        
+        .leaderboard-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            margin: 15px 0;
+            background: rgba(var(--albatross-green-rgb), 0.05);
+            border-radius: 8px;
+            border-left: 4px solid var(--albatross-green);
+        }
+        
+        .leaderboard-rank {
+            font-family: 'Recoleta', 'Georgia', serif;
+            font-weight: 900;
+            font-size: 36px;
+            color: var(--albatross-yellow);
+            min-width: 60px;
+        }
+        
+        .leaderboard-info {
+            flex: 1;
+            padding: 0 20px;
+        }
+        
+        .leaderboard-name {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        
+        .leaderboard-stat {
+            font-size: 13px;
+            opacity: 0.7;
+        }
+        
+        .leaderboard-value {
+            font-family: 'Recoleta', 'Georgia', serif;
+            font-weight: 900;
+            font-size: 28px;
+            color: var(--albatross-green);
+        }
+        
+        @media (max-width: 768px) {
+            .slide {
+                padding: 60px 20px;
+            }
+            
+            .logo {
+                top: 20px;
+                right: 20px;
+                font-size: 18px;
+            }
+            
+            .two-col {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-buttons {
+                bottom: 20px;
+            }
+            
+            h2 {
+                padding: 8px 20px;
+                font-size: 20px;
+            }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.8s ease forwards;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .stagger-1 { animation-delay: 0.1s; opacity: 0; }
+        .stagger-2 { animation-delay: 0.2s; opacity: 0; }
+        .stagger-3 { animation-delay: 0.3s; opacity: 0; }
+        .stagger-4 { animation-delay: 0.4s; opacity: 0; }
+        .stagger-5 { animation-delay: 0.5s; opacity: 0; }
+    </style>
+</head>
+<body>
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+    
+    <div class="slide-container" id="slideContainer">
+        <!-- Slide 1: Title -->
+        <div class="slide active" data-slide="1">
+            <div class="logo">Albatross</div>
+            <h1 class="fade-in stagger-1">Hertsmere<br>2025<br>Wrapped</h1>
+            <p class="subtitle fade-in stagger-2">Your year in paid social, but make it bold</p>
+            <div class="slide-number">01 / 21</div>
+        </div>
+        
+        <!-- Slide 2: Total Spend -->
+        <div class="slide" data-slide="2">
+            <div class="logo">Albatross</div>
+            <h2>You Invested</h2>
+            <div class="big-number">£21,682</div>
+            <p class="subtitle">in making Hertsmere impossible to ignore online</p>
+            <div class="slide-number">02 / 21</div>
+        </div>
+        
+        <!-- Slide 3: Total Leads -->
+        <div class="slide" data-slide="3">
+            <div class="logo">Albatross</div>
+            <h2>And Generated</h2>
+            <div class="big-number">2,068</div>
+            <p class="subtitle">quality leads who actually want to hear from you</p>
+            <div class="slide-number">03 / 21</div>
+        </div>
+        
+        <!-- Slide 4: Reach -->
+        <div class="slide" data-slide="4">
+            <div class="logo">Albatross</div>
+            <h2>Your Reach</h2>
+            <div class="big-number">1.68M</div>
+            <p class="subtitle">unique people saw Hertsmere in their feed.<br>That's enough to fill Wembley Stadium 19 times.</p>
+            <div class="slide-number">04 / 21</div>
+        </div>
+        
+        <!-- Slide 5: Impressions -->
+        <div class="slide" data-slide="5">
+            <div class="logo">Albatross</div>
+            <h2>Impressions Delivered</h2>
+            <div class="big-number">5.3M</div>
+            <p class="subtitle">times your ads appeared on screen.<br>We were everywhere.</p>
+            <div class="slide-number">05 / 21</div>
+        </div>
+        
+        <!-- Slide 6: Campaign Count -->
+        <div class="slide" data-slide="6">
+            <div class="logo">Albatross</div>
+            <h2>Campaigns Launched</h2>
+            <div class="big-number">30</div>
+            <p class="subtitle">Different messages. Different audiences.<br>All driving toward one goal: growth.</p>
+            <div class="slide-number">06 / 21</div>
+        </div>
+        
+        <!-- Slide 7: Campaign Mix -->
+        <div class="slide" data-slide="7">
+            <div class="logo">Albatross</div>
+            <h2>Where The Money Went</h2>
+            <div class="pie-chart-container">
+                <canvas id="budgetPieChart"></canvas>
+            </div>
+            <p class="subtitle">Green fees dominated spend, driving traffic to your most important revenue stream</p>
+            <div class="slide-number">07 / 21</div>
+        </div>
+        
+        <!-- Slide 8: Landing Page Views -->
+        <div class="slide" data-slide="8">
+            <div class="logo">Albatross</div>
+            <h2>Traffic Delivered</h2>
+            <div class="big-number">69,401</div>
+            <p class="subtitle">traffic results from campaigns focused on driving bookings and engagement</p>
+            <div class="slide-number">08 / 21</div>
+        </div>
+        
+        <!-- Slide 9: Average CPL -->
+        <div class="slide" data-slide="9">
+            <div class="logo">Albatross</div>
+            <h2>Your Average Cost Per Lead</h2>
+            <div class="big-number">£7.48</div>
+            <p class="subtitle">That's the median. Clean. Honest. Actually useful.</p>
+            <div class="slide-number">09 / 21</div>
+        </div>
+        
+        <!-- Slide 10: Deep Dive Intro -->
+        <div class="slide" data-slide="10">
+            <div class="logo">Albatross</div>
+            <h1 style="font-size: clamp(40px, 7vw, 90px);">Time to get<br>granular</h1>
+            <p class="subtitle">The devil's in the data, and we're about to exorcise it</p>
+            <div class="slide-number">10 / 21</div>
+        </div>
+        
+        <!-- Slide 11: The CPL Truth -->
+        <div class="slide" data-slide="11">
+            <div class="logo">Albatross</div>
+            <h2>The CPL Truth</h2>
+            <div class="two-col">
+                <div class="stat-box">
+                    <div class="stat-box-label">Mean CPL</div>
+                    <div class="stat-box-value">£8.88</div>
+                    <p style="margin-top: 15px; font-size: 13px; opacity: 0.7;">Add up all CPLs and divide by the number of campaigns. Skewed by expensive outliers.</p>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-box-label">Median CPL</div>
+                    <div class="stat-box-value">£7.48</div>
+                    <p style="margin-top: 15px; font-size: 13px; opacity: 0.7;">The middle value when all CPLs are sorted. More representative of typical performance.</p>
+                </div>
+            </div>
+            <p class="subtitle">The median is £1.40 lower because a few expensive campaigns push the mean up.<br>The median tells the real story of your typical lead cost.</p>
+            <div class="slide-number">11 / 21</div>
+        </div>
+        
+        <!-- Slide 12: The Outliers -->
+        <div class="slide" data-slide="12">
+            <div class="logo">Albatross</div>
+            <h2>The Outliers</h2>
+            <p class="subtitle" style="margin-bottom: 30px;">These campaigns skewed the averages. Not all wins look the same.</p>
+            <div class="campaign-card poor">
+                <div class="campaign-name">Flexible Membership 20% Extra July FB Leads</div>
+                <div class="campaign-stats">
+                    CPL: <span class="highlight">£7.48</span> | 
+                    Leads: 144 | 
+                    Spend: £1,077
+                </div>
+            </div>
+            <div class="campaign-card poor">
+                <div class="campaign-name">AlwaysOn Performance Conversion Leads Q1 Societies</div>
+                <div class="campaign-stats">
+                    CPL: <span class="highlight">£12.28</span> | 
+                    Leads: 25 | 
+                    Spend: £307
+                </div>
+            </div>
+            <div class="campaign-card poor">
+                <div class="campaign-name">Society Group Bookings FB Leads</div>
+                <div class="campaign-stats">
+                    CPL: <span class="highlight">£8.76</span> | 
+                    Leads: 53 | 
+                    Spend: £464
+                </div>
+            </div>
+            <p class="subtitle" style="margin-top: 30px;">Society campaigns cost more per lead, but they often bring higher value bookings.<br>Context matters.</p>
+            <div class="slide-number">12 / 21</div>
+        </div>
+        
+        <!-- Slide 13: Quarterly Performance -->
+        <div class="slide" data-slide="13">
+            <div class="logo">Albatross</div>
+            <h2>When Performance Peaked</h2>
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-box-label">Q1 2025</div>
+                    <div class="stat-box-value">653</div>
+                    <p style="margin-top: 10px; font-size: 13px;">leads | £6.56 CPL</p>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-box-label">April – June</div>
+                    <div class="stat-box-value">84</div>
+                    <p style="margin-top: 10px; font-size: 13px;">leads | £8.01 CPL</p>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-box-label">July – Sept</div>
+                    <div class="stat-box-value">197</div>
+                    <p style="margin-top: 10px; font-size: 13px;">leads | £7.82 CPL</p>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-box-label">Sept – Oct</div>
+                    <div class="stat-box-value">201</div>
+                    <p style="margin-top: 10px; font-size: 13px;">leads | £1.77 CPL</p>
+                </div>
+            </div>
+            <p class="subtitle">Q1 dominated volume with AlwaysOn campaigns.<br>Late year efficiency looked strong, but conversion tracking remains unclear.</p>
+            <div class="slide-number">13 / 21</div>
+        </div>
+        
+        <!-- Slide 14: Campaign Leaderboard -->
+        <div class="slide" data-slide="14">
+            <div class="logo">Albatross</div>
+            <h2>The Leaderboard</h2>
+            <p class="subtitle" style="margin-bottom: 30px;">Top 5 campaigns by cost per lead</p>
+            
+            <div style="width: 100%; max-width: 900px;">
+                <div class="leaderboard-item">
+                    <div class="leaderboard-rank">1</div>
+                    <div class="leaderboard-info">
+                        <div class="leaderboard-name">Christmas At The Hertsmere Lead Gen</div>
+                        <div class="leaderboard-stat">201 leads | £357 spend</div>
+                    </div>
+                    <div class="leaderboard-value">£1.77</div>
+                </div>
+                
+                <div class="leaderboard-item">
+                    <div class="leaderboard-rank">2</div>
+                    <div class="leaderboard-info">
+                        <div class="leaderboard-name">Christmas Party Nights At The Hertsmere Lead Gen</div>
+                        <div class="leaderboard-stat">97 leads | £351 spend</div>
+                    </div>
+                    <div class="leaderboard-value">£3.62</div>
+                </div>
+                
+                <div class="leaderboard-item">
+                    <div class="leaderboard-rank">3</div>
+                    <div class="leaderboard-info">
+                        <div class="leaderboard-name">Flexible Membership Q1 Campaign</div>
+                        <div class="leaderboard-stat">242 leads | £1,358 spend</div>
+                    </div>
+                    <div class="leaderboard-value">£5.61</div>
+                </div>
+                
+                <div class="leaderboard-item">
+                    <div class="leaderboard-rank">4</div>
+                    <div class="leaderboard-info">
+                        <div class="leaderboard-name">Flexible Membership Q1 Campaign (Conversion)</div>
+                        <div class="leaderboard-stat">217 leads | £1,360 spend</div>
+                    </div>
+                    <div class="leaderboard-value">£6.27</div>
+                </div>
+                
+                <div class="leaderboard-item">
+                    <div class="leaderboard-rank">5</div>
+                    <div class="leaderboard-info">
+                        <div class="leaderboard-name">Flexible Membership 20% Extra July</div>
+                        <div class="leaderboard-stat">144 leads | £1,077 spend</div>
+                    </div>
+                    <div class="leaderboard-value">£7.48</div>
+                </div>
+            </div>
+            
+            <p class="subtitle" style="margin-top: 30px;">This leaderboard shows Facebook lead gen campaigns only.<br>Website conversion campaigns are tracked separately with different metrics.</p>
+            
+            <div class="slide-number">14 / 21</div>
+        </div>
+        
+        <!-- Slide 15: What Worked -->
+        <div class="slide" data-slide="15">
+            <div class="logo">Albatross</div>
+            <h2>What Worked</h2>
+            <div class="two-col">
+                <div class="insight-box">
+                    <h3>Green Fees Traffic</h3>
+                    <p>Green fees campaigns delivered nearly 60,000 traffic results at efficient rates. This is your bread and butter, keep the momentum.</p>
+                </div>
+                <div class="insight-box">
+                    <h3>Flexible Membership Q1</h3>
+                    <p>Your Q1 flexible membership campaigns delivered 459 leads at £5.94 average CPL. Consistent presence beats sporadic shouting every time.</p>
+                </div>
+            </div>
+            <div class="two-col">
+                <div class="insight-box">
+                    <h3>Christmas Events</h3>
+                    <p>The Christmas campaigns filled events like Brunch with Santa. Lead volume and CPL looked incredible, but conversion tracking gaps mean we can't fully verify ROI. This is exactly why follow-up matters.</p>
+                </div>
+                <div class="insight-box">
+                    <h3>Lead Forms Work</h3>
+                    <p>Facebook lead gen ads delivered volume efficiently. Low friction forms kept costs down. Continue prioritising this format.</p>
+                </div>
+            </div>
+            <div class="slide-number">15 / 21</div>
+        </div>
+        
+        <!-- Slide 16: The Follow-Up Problem -->
+        <div class="slide" data-slide="16">
+            <div class="logo">Albatross</div>
+            <h2>The Follow-Up Problem</h2>
+            <div class="warning-box">
+                <h3>We Have No Idea What's Actually Working</h3>
+                <p>2,068 leads generated. But how many were called? How many booked? How many became members? Without proper follow-up and tracking, we're flying blind.</p>
+            </div>
+            <div class="two-col">
+                <div class="insight-box">
+                    <h3>The Reality</h3>
+                    <p>Lead gen costs look great on paper. But if leads aren't being followed up properly, we're just paying for names in a database. Sales conversion is where the real value lives.</p>
+                </div>
+                <div class="insight-box">
+                    <h3>The Solution</h3>
+                    <p>Every lead needs 3-5 contact attempts minimum. Track every call, every booking, every conversion. Without this data, we can't optimise for what actually drives revenue.</p>
+                </div>
+            </div>
+            <div class="slide-number">16 / 21</div>
+        </div>
+        
+        <!-- Slide 17: What Didn't Work -->
+        <div class="slide" data-slide="17">
+            <div class="logo">Albatross</div>
+            <h2>What Didn't Work</h2>
+            <div class="two-col">
+                <div class="insight-box">
+                    <h3>Society Costs</h3>
+                    <p>Society campaigns ran hot on CPL. While they bring bigger bookings, we need to refine targeting and creative to drive efficiency gains.</p>
+                </div>
+                <div class="insight-box">
+                    <h3>Small Budget Tests</h3>
+                    <p>Campaigns with minimal spend struggled to find their footing. If we're testing, we need runway to learn and optimise properly.</p>
+                </div>
+            </div>
+            <div class="insight-box" style="grid-column: 1 / -1; max-width: 900px; margin: 20px auto;">
+                <h3>The Conversion Tracking Gap</h3>
+                <p>Christmas campaigns generated 298 leads at low CPL and successfully filled events. But we're missing the crucial piece: did those leads become paying customers beyond the initial booking? Without systematic follow-up (3-5 calls per lead) and conversion tracking, we can't optimise for what actually drives revenue. Low CPL means nothing if the quality isn't there.</p>
+            </div>
+            <div class="slide-number">17 / 21</div>
+        </div>
+        
+        <!-- Slide 18: Green Fees Deep Dive -->
+        <div class="slide" data-slide="18">
+            <div class="logo">Albatross</div>
+            <h2>Green Fees: The Priority</h2>
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-box-label">Spend</div>
+                    <div class="stat-box-value">£11,653</div>
+                    <p style="margin-top: 10px; font-size: 13px;">54% of total budget</p>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-box-label">Traffic Results</div>
+                    <div class="stat-box-value">59,237</div>
+                    <p style="margin-top: 10px; font-size: 13px;">85% of all traffic</p>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-box-label">Cost Per Result</div>
+                    <div class="stat-box-value">£0.20</div>
+                    <p style="margin-top: 10px; font-size: 13px;">efficient and scalable</p>
+                </div>
+            </div>
+            <p class="subtitle">Green fees are your engine. Keep feeding it, keep optimising it,<br>and track those bookings religiously.</p>
+            <div class="slide-number">18 / 21</div>
+        </div>
+        
+        <!-- Slide 19: Traffic Campaign Spotlight -->
+        <div class="slide" data-slide="19">
+            <div class="logo">Albatross</div>
+            <h2>Traffic Campaign MVP</h2>
+            <h3 style="text-align: center; max-width: 700px; line-height: 1.4;">Green Fees LPVs RT (June)</h3>
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-box-label">Cost Per LPV</div>
+                    <div class="stat-box-value">£0.08</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-box-label">Landing Page Views</div>
+                    <div class="stat-box-value">9,567</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-box-label">Spend</div>
+                    <div class="stat-box-value">£740</div>
+                </div>
+            </div>
+            <p class="subtitle">Absurdly efficient traffic. This is what happens when<br>retargeting meets a warm audience ready to book.</p>
+            <div class="slide-number">19 / 21</div>
+        </div>
+        
+        <!-- Slide 20: Category Performance -->
+        <div class="slide" data-slide="20">
+            <div class="logo">Albatross</div>
+            <h2>Performance By Category</h2>
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-box-label">Memberships</div>
+                    <div class="stat-box-value">653</div>
+                    <p style="margin-top: 10px; font-size: 13px;">leads | £6.56 CPL | £4,283 spend</p>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-box-label">Events</div>
+                    <div class="stat-box-value">298</div>
+                    <p style="margin-top: 10px; font-size: 13px;">leads | £2.37 CPL | £707 spend</p>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-box-label">Societies</div>
+                    <div class="stat-box-value">115</div>
+                    <p style="margin-top: 10px; font-size: 13px;">leads | £11.76 CPL | £1,353 spend</p>
+                </div>
+            </div>
+            <p class="subtitle">Memberships dominated volume. Events won on efficiency.<br>But without conversion tracking, we're guessing at real ROI.</p>
+            <div class="slide-number">20 / 26</div>
+        </div>
+        
+        <!-- NEW SLIDE 21: Green Fee Campaign Deep Dive Intro -->
+        <div class="slide" data-slide="21">
+            <div class="logo">Albatross</div>
+            <h1 style="font-size: clamp(40px, 7vw, 90px);">But here's<br>the real<br>story</h1>
+            <p class="subtitle">The green fee campaign that rescued 2025</p>
+            <div class="slide-number">21 / 26</div>
+        </div>
+        
+        <!-- NEW SLIDE 22: The Crisis -->
+        <div class="slide" data-slide="22">
+            <div class="logo">Albatross</div>
+            <h2>The Crisis</h2>
+            <p class="subtitle" style="margin-bottom: 40px;">January through May 2025</p>
+            <div class="big-number" style="color: #ef4444;">-22.36%</div>
+            <p class="subtitle">Visitor booking page traffic vs 2024.<br>Peak season approaching. Momentum declining.<br>Revenue under threat.</p>
+            <div class="slide-number">22 / 26</div>
+        </div>
+        
+        <!-- NEW SLIDE 23: The Response -->
+        <div class="slide" data-slide="23">
+            <div class="logo">Albatross</div>
+            <h2>The Response</h2>
+            <p class="subtitle" style="margin-bottom: 30px;">June 1st, 2025: Green fee campaign launches</p>
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-box-label">Campaign Investment</div>
+                    <div class="stat-box-value">£11,006</div>
+                    <p style="margin-top: 10px; font-size: 13px;">Jun-Dec 2025</p>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-box-label">Targeting Strategy</div>
+                    <div class="stat-box-value">15km</div>
+                    <p style="margin-top: 10px; font-size: 13px;">radius targeting</p>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-box-label">Peak Investment</div>
+                    <div class="stat-box-value">£9,640</div>
+                    <p style="margin-top: 10px; font-size: 13px;">Jun-Sep critical period</p>
+                </div>
+            </div>
+            <p class="subtitle" style="margin-top: 30px;">Heavy investment during peak season to capture competitor market share</p>
+            <div class="slide-number">23 / 26</div>
+        </div>
+        
+        <!-- NEW SLIDE 24: The Turnaround -->
+        <div class="slide" data-slide="24">
+            <div class="logo">Albatross</div>
+            <h2>The Turnaround</h2>
+            <p class="subtitle" style="margin-bottom: 30px;">Full year 2025 vs 2024</p>
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-box-label">Overall Site Traffic</div>
+                    <div class="stat-box-value">+44%</div>
+                    <p style="margin-top: 10px; font-size: 13px;">48,000 additional visitors</p>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-box-label">Booking Page Views</div>
+                    <div class="stat-box-value">+2.4%</div>
+                    <p style="margin-top: 10px; font-size: 13px;">from -22% to positive growth</p>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-box-label">Engagement Time</div>
+                    <div class="stat-box-value">+22%</div>
+                    <p style="margin-top: 10px; font-size: 13px;">higher quality visitors</p>
+                </div>
+            </div>
+            <p class="subtitle" style="margin-top: 30px;">From crisis to growth. Complete recovery achieved.</p>
+            <div class="slide-number">24 / 27</div>
+        </div>
+        
+        <!-- NEW SLIDE 25: Quality Over Quantity -->
+        <div class="slide" data-slide="25">
+            <div class="logo">Albatross</div>
+            <h2>Quality Over Quantity</h2>
+            <p class="subtitle" style="margin-bottom: 40px;">Why the funnel matters</p>
+            
+            <!-- Funnel Diagram -->
+            <div style="display: flex; align-items: center; justify-content: center; gap: 30px; margin: 40px 0;">
+                <div style="text-align: center;">
+                    <div style="background: rgba(var(--albatross-green-rgb), 0.2); border: 2px solid var(--albatross-green); padding: 20px 30px; border-radius: 8px; min-width: 150px;">
+                        <div style="font-size: 16px; font-weight: 600; margin-bottom: 5px;">Facebook Ad</div>
+                    </div>
+                </div>
+                
+                <div style="font-size: 40px; color: var(--albatross-pink);">→</div>
+                
+                <div style="text-align: center;">
+                    <div style="background: rgba(var(--albatross-green-rgb), 0.2); border: 2px solid var(--albatross-green); padding: 20px 30px; border-radius: 8px; min-width: 150px;">
+                        <div style="font-size: 16px; font-weight: 600; margin-bottom: 5px;">Landing Page</div>
+                        <div style="font-size: 12px; opacity: 0.8;">Explore options</div>
+                    </div>
+                </div>
+                
+                <div style="font-size: 40px; color: var(--albatross-pink);">→</div>
+                
+                <div style="text-align: center;">
+                    <div style="background: rgba(240, 174, 190, 0.2); border: 2px solid var(--albatross-pink); padding: 20px 30px; border-radius: 8px; min-width: 150px;">
+                        <div style="font-size: 16px; font-weight: 600; margin-bottom: 5px; color: var(--albatross-pink);">"Book Now"</div>
+                        <div style="font-size: 12px; opacity: 0.8;">Intent signal</div>
+                    </div>
+                </div>
+                
+                <div style="font-size: 40px; color: var(--albatross-pink);">→</div>
+                
+                <div style="text-align: center;">
+                    <div style="background: rgba(var(--albatross-green-rgb), 0.3); border: 3px solid var(--albatross-green); padding: 20px 30px; border-radius: 8px; min-width: 150px;">
+                        <div style="font-size: 16px; font-weight: 600; margin-bottom: 5px;">Visitor Booking</div>
+                        <div style="font-size: 12px; opacity: 0.8;">Ready to book</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="two-col" style="margin-top: 40px;">
+                <div class="insight-box">
+                    <h3>The Strategy</h3>
+                    <p>We didn't artificially inflate booking page numbers. Ads drove traffic to landing pages where people could explore first. Only when they clicked "Book Now" did they reach the actual booking system.</p>
+                    <p style="margin-top: 15px;"><strong>That extra step filtered casual browsers from serious bookers.</strong></p>
+                </div>
+                <div class="insight-box">
+                    <h3>The Numbers</h3>
+                    <p><strong>Overall Site Traffic:</strong> +44%<br><span style="font-size: 13px; opacity: 0.8;">48,000 additional visitors exploring</span></p>
+                    <p style="margin-top: 15px;"><strong>Booking Page Users:</strong> -1.48%<br><span style="font-size: 13px; opacity: 0.8;">Fewer people, but...</span></p>
+                    <p style="margin-top: 15px;"><strong>Engagement Time:</strong> +22.47%<br><span style="font-size: 13px; opacity: 0.8;">They spent way longer considering</span></p>
+                </div>
+            </div>
+            
+            <p class="subtitle" style="margin-top: 30px;">We traded volume for intent. The visitors who reached the booking page weren't window shopping—they were actively comparing tee times and ready to book.</p>
+            
+            <div class="slide-number">25 / 27</div>
+        </div>
+        
+        <!-- RENUMBERED SLIDE 26: Looking Ahead (was 25) -->
+        <div class="slide" data-slide="26">
+            <div class="logo">Albatross</div>
+            <h2>Looking Ahead to 2026</h2>
+            <div class="two-col">
+                <div class="insight-box">
+                    <h3>Fix The Funnel</h3>
+                    <p>Implement proper lead follow-up. 3-5 calls per lead minimum. Track conversions religiously. Without this, nothing else matters.</p>
+                </div>
+                <div class="insight-box">
+                    <h3>Double Down on Green Fees</h3>
+                    <p>Scale your most efficient traffic driver. The campaign rescued 2025. Increase peak season investment by 50% to compound gains.</p>
+                </div>
+            </div>
+            <div class="two-col">
+                <div class="insight-box">
+                    <h3>Flexible Membership Priority</h3>
+                    <p>Flexible membership performed well in Q1. Invest significant budget early in the year. Plan membership open days and back them with aggressive paid social support. Strike while intent is high.</p>
+                </div>
+                <div class="insight-box">
+                    <h3>Launch Earlier</h3>
+                    <p>The Jan-May deficit cost momentum. Start green fee campaigns in March 2026 (not June) to maintain year-round presence and prevent another early-year decline.</p>
+                </div>
+            </div>
+            <div class="warning-box" style="margin-top: 40px;">
+                <p><strong>The Bottom Line:</strong> Green fees rescued 2025 from a 22% deficit and delivered year-on-year growth. Lead gen costs are solid. Traffic is efficient. But we need conversion tracking and proper follow-up to know what's actually driving revenue. That's the 2026 priority.</p>
+            </div>
+            <div class="slide-number">26 / 27</div>
+        </div>
+        
+        <!-- RENUMBERED SLIDE 27: Final Wrap (was 26) -->
+        <div class="slide" data-slide="27">
+            <div class="logo">Albatross</div>
+            <h1 style="font-size: clamp(50px, 8vw, 100px);">2025 was<br>just the<br>warm up</h1>
+            <p class="subtitle">2,068 leads. £21,682 invested. A 22% crisis turned into growth.<br><br>2026 is where we really fly.</p>
+            <div class="slide-number">27 / 27</div>
+        </div>
+    </div>
+    
+    <div class="nav-buttons">
+        <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">←</button>
+        <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">→</button>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 27;
+        
+        function updateProgress() {
+            const progress = (currentSlide / totalSlides) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+        
+        function updateButtons() {
+            document.getElementById('prevBtn').disabled = currentSlide === 1;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides;
+        }
+        
+        function changeSlide(direction) {
+            const slides = document.querySelectorAll('.slide');
+            const currentSlideEl = slides[currentSlide - 1];
+            
+            currentSlideEl.classList.add('exiting');
+            currentSlideEl.classList.remove('active');
+            
+            setTimeout(() => {
+                currentSlideEl.classList.remove('exiting');
+                
+                currentSlide += direction;
+                if (currentSlide < 1) currentSlide = 1;
+                if (currentSlide > totalSlides) currentSlide = totalSlides;
+                
+                const newSlideEl = slides[currentSlide - 1];
+                newSlideEl.classList.add('active');
+                
+                // Trigger animations
+                const animatedElements = newSlideEl.querySelectorAll('.fade-in');
+                animatedElements.forEach(el => {
+                    el.style.animation = 'none';
+                    setTimeout(() => {
+                        el.style.animation = '';
+                    }, 10);
+                });
+                
+                updateProgress();
+                updateButtons();
+                
+                // Initialise chart if on slide 7
+                if (currentSlide === 7) {
+                    setTimeout(initBudgetChart, 300);
+                }
+            }, 300);
+        }
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') changeSlide(1);
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+        });
+        
+        // Initialise pie chart with distinct colours
+        function initBudgetChart() {
+            const canvas = document.getElementById('budgetPieChart');
+            if (!canvas) return;
+            
+            // Destroy existing chart if it exists
+            const existingChart = Chart.getChart(canvas);
+            if (existingChart) {
+                existingChart.destroy();
+            }
+            
+            const ctx = canvas.getContext('2d');
+            
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: [
+                        'Green Fees Traffic',
+                        'Membership Leads', 
+                        'F&B Traffic',
+                        'Society Leads',
+                        'Website Conversions',
+                        'Events Traffic',
+                        'Events Leads',
+                        'Other Traffic'
+                    ],
+                    datasets: [{
+                        data: [11653, 4283, 1414, 1353, 1111, 854, 707, 197],
+                        backgroundColor: [
+                            '#2d6a4f', // Dark green for green fees
+                            '#f72585', // Bright pink for memberships
+                            '#ffd60a', // Yellow for F&B
+                            '#4361ee', // Blue for societies
+                            '#00b4d8', // Cyan for website conversions
+                            '#ff9e00', // Orange for events traffic
+                            '#ff006e', // Magenta for events leads
+                            '#8338ec'  // Purple for other
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: '#ffffff',
+                                font: {
+                                    family: 'Montserrat',
+                                    size: 13
+                                },
+                                padding: 15
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.parsed;
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = ((value / total) * 100).toFixed(1);
+                                    return label + ': £' + value.toLocaleString() + ' (' + percentage + '%)';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Initialise
+        updateProgress();
+        updateButtons();
+    </script>
+</body>
+</html>
